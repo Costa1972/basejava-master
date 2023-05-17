@@ -1,3 +1,7 @@
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 /**
  * Array based storage for Resumes
  */
@@ -12,11 +16,17 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        storage[size++] = r;
+        storage[size] = r;
+        size++;
     }
 
-    Resume get(String uuid) {
-        return null;
+    Optional<Resume> get(String uuid) {
+        for (int i = 0; i <= size; i++) {
+            if (storage[i].uuid.equals(uuid)) {
+                return Optional.of(storage[i]);
+            }
+        }
+        return Optional.empty();
     }
 
     void delete(String uuid) {
@@ -26,7 +36,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return new Resume[0];
+        return storage;
     }
 
     int size() {

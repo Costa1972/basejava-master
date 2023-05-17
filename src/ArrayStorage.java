@@ -1,5 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -30,16 +31,27 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
+        List<Resume> resumeList = new ArrayList<>(Arrays.asList(storage));
+        for (int i = 0; i < resumeList.size(); i++) {
+            if (resumeList.get(i) != null) {
+                if (resumeList.get(i).uuid.equals(uuid)) {
+                    resumeList.remove(i);
+                }
+            }
+        }
+        storage = resumeList.toArray(Resume[]::new);
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return storage;
+        return Arrays.stream(storage)
+                .limit(size)
+                .toArray(Resume[]::new);
     }
 
     int size() {
-        return 0;
+        return size;
     }
 }
